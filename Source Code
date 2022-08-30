@@ -1,0 +1,1290 @@
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <cstring>
+#include <ctime>
+#include <iomanip>
+#include <conio.h>
+#include <dos.h>
+using namespace std;
+
+//CLASS HOTEL
+class HOTEL
+{
+private:
+    int room_no;
+    int age;
+    float total = 0;
+    float tax = 0, dis = 0, amt = 0;
+    long mem = 0;
+    char car;
+    char car_park[10];
+    long cp, pay1 = 0, pay2 = 0;
+    long ad_pay = 0;
+    char occ[20];
+    char name[30],surname[20];
+    char address[50];
+    char phone[15];
+    int days;
+    long cost = 0;
+    char rtype[30];
+    char reptype[20];
+    long pay = 0;
+    void theatre(int);
+    void swim(int);
+    void gym(int);
+    void breakfast(int);
+    void lunch(int);
+    void dinner(int);
+
+public:
+    void covid();
+    void normal();
+    void memo();
+    void casino();
+    void add_day(int);
+    void main_menu();
+    void add();
+    void display();
+    void rooms();
+    void edit();
+    int check(int);
+    void modify();
+    void bill();
+    void restaurant();
+    void modify_name(int);
+    void modify_address(int);
+    void modify_phone(int);
+    void modify_age(int);
+    void modify_occ(int);
+    void modify_days(int);
+    void rules();
+    void admlog();
+    void custlog();
+} h;
+
+//FUNCTION MAIN MENU
+void HOTEL::main_menu()
+{
+    int choice;
+    char z;
+    while (choice != 8)
+    {
+        system("cls");
+        cout << "\n\t\t\t +------------------------+";
+        cout << "\n\t\t\t |   Hotel Raddison Blu   |";
+        cout << "\n\t\t\t +------------------------+";
+        cout << "\n-> Main Menu";
+        cout << "\n\n1.  Book A Room";
+        cout << "\n2.  Customer Information";
+        cout << "\n3.  Rooms Allotted";
+        cout << "\n4.  Memo";
+        cout << "\n5.  Edit Customer Details";
+        cout << "\n6.  Order Food from Restaurant";
+        cout << "\n7.  Generate Bill";
+        cout << "\n8.  Exit";
+        cout << "\n\  Enter Your Choice: ";
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            add();
+            break;
+        case 2:
+            display();
+            break;
+        case 3:
+            rooms();
+            break;
+        case 4:
+            memo();
+            break;
+        case 5:
+            edit();
+            break;
+        case 6:
+            restaurant();
+            break;
+        case 7:
+            bill();
+            break;
+        case 8: cout << "\nThank You For Visiting!\n\n";
+             return;
+             break;
+        default:
+        {
+            cout << "\n Wrong choice.";
+            cout << "\n Press any key to continue.";
+            getch();
+        }
+        }
+    }
+}
+
+//FUNCTION FOR COVID ROOMS
+void HOTEL::covid()
+{
+    ofstream fout("Record.DAT", ios::app | ios::binary);
+    int r, flag;
+    cout << "\n\n Enter Rooms from Room No. 101 to 150. ";
+    cout << "\n\n ENTER CUSTOMER DETAILS";
+    cout << "\n ----------------------";
+    cout << "\n Room Number: ";
+    cin >> r;
+    flag = check(r);
+    if (flag == 1)
+        cout << "\n Sorry, Room is already booked.\n";
+    else
+    {
+        if (r > 0 && r < 101 || r > 150)
+        {
+            cout << "\n Sorry, Room does not exist.\n";
+            cout << "\n You Must Select Rooms From Room No. 101 to 150. ";
+        }
+        else
+        {
+            room_no = r;
+            cout<<" First Name: ";
+           cin>>name;
+           cout<<" Last Name: ";
+           cin>>surname;
+            cout << " Address: ";
+            cin >> address;
+            cout << " Phone Number: ";
+            cin >> phone;
+            cout << " Age: ";
+            cin >> age;
+            fflush(stdin);
+            cout << " Occupation: ";
+            cin >> occ;
+            cout << " Number of Days: ";
+            cin >> days;
+            fflush(stdin);
+            cout << " Want Car Parking ? {y/n}:  ";
+            cin >> car;
+            if (car == 'y' || car == 'Y')
+            {
+                cp = 30 ;
+                strcpy(car_park, "YES");
+            }
+            else
+            {
+                cp = 0;
+                strcpy(car_park, "NO");
+            }
+            strcpy(reptype, "Positive");
+            if (room_no >= 101 && room_no <= 150)
+            {
+                strcpy(rtype, "Covid Room");
+                cost = days * 4000;
+                cout << "\n Doctor will be available at 6:00 pm to 8:00 pm. ";
+            }
+            fout.write((char *)this, sizeof(HOTEL));
+            cout << "\n Room has been booked.";
+        }
+    }
+    cout << "\n Press any key to continue.";
+    fout.close();
+    getch();
+}
+
+//FUNCTION FOR NORMAL ROOMS
+void HOTEL::normal()
+{
+    ofstream fout("Record.DAT", ios::app | ios::binary);
+    int r, flag;
+    cout << "\n\n Enter Rooms from Room No. 1 to 100. ";
+    cout << "\n\n ENTER CUSTOMER DETAILS";
+    cout << "\n ----------------------";
+    cout << "\n Room Number: ";
+    cin >> r;
+    flag = check(r);
+    if (flag == 1)
+        cout << "\n Sorry, Room is already booked.\n";
+    else
+    {
+        if (r < 1 || r > 101)
+        {
+            cout << "\n Sorry, Room does not exist.\n";
+            cout << "\n You Must Select Rooms From Room No. 1 to 100. ";
+        }
+        else
+        {
+            room_no = r;
+            cout<<" First Name: ";
+           cin>>name;
+           cout<<" Last Name: ";
+           cin>>surname;
+            cout << " Address: ";
+            cin >> address;
+            cout << " Phone Number: ";
+            cin >> phone;
+            cout << " Age: ";
+            cin >> age;
+            fflush(stdin);
+            cout << " Occupation: ";
+            cin >> occ;
+            cout << " Number of Days: ";
+            cin >> days;
+            fflush(stdin);
+            cout << " Want Car Parking ? {y/n}: ";
+            cin >> car;
+            if (car == 'y' || car == 'Y')
+            {
+                cp = 30;
+                strcpy(car_park, "YES");
+            }
+            else
+            {
+                cp = 0;
+                strcpy(car_park, "NO");
+            }
+            strcpy(reptype, "Negative");
+            if (room_no >= 1 && room_no <= 50)
+            {
+                strcpy(rtype, "Ordinary");
+                cost = days * 2000;
+            }
+            else if (room_no >= 51 && room_no <= 80)
+            {
+                strcpy(rtype, "Deluxe");
+                cost = days * 5000;
+            }
+            else if (room_no >= 81 && room_no <= 100)
+            {
+                strcpy(rtype, "Royal");
+                cost = days * 8000;
+            }
+            fout.write((char *)this, sizeof(HOTEL));
+            cout << "\n Room has been booked.";
+        }
+        cout << "\n Press any key to continue.";
+        fout.close();
+        getch();
+    }
+}
+
+//FUNCTION TO BOOK A ROOM
+void HOTEL::add()
+{
+    system("cls");
+    char c, q, m;
+    int r, flag;
+    cout << "\n\t\t\t +----------+------------+----------+";
+    cout << "\n\t\t\t |  Rooms   |  Room Type |   Price  |";
+    cout << "\n\t\t\t +----------+------------+----------+";
+    cout << "\n\t\t\t |   1-50   |  Ordinary  |  Rs.2000 |";
+    cout << "\n\t\t\t |  51-80   |   Deluxe   |  Rs.5000 |";
+    cout << "\n\t\t\t |  81-100  |    Royal   |  Rs.8000 |";
+    cout << "\n\t\t\t | 101-150  | Covid Room |  Rs.4000 |";
+    cout << "\n\t\t\t +----------+------------+----------+";
+    cout << "\n\t\t\t |   Car Parking Per Day is Rs.30   |";
+    cout << "\n\t\t\t +----------+------------+----------+";
+    cout << "\n\n Do you want to book a room? {Y/N}: ";
+    cin >> c;
+    if (c == 'y' || c == 'Y')
+    {
+        cout << "\n Do You Have Covid Report ? {Y/N}: ";
+        cin >> q;
+        if (q == 'Y' || q == 'y')
+        {
+            cout << "\n Are you Corona Positive Or Negative? {P/N}: ";
+            cin >> m;
+            if (m == 'p' | m == 'P')
+            {
+                covid();
+            }
+            else
+            {
+                normal();
+            }
+        }
+        else if (q == 'n' || q == 'N')
+        {
+            cout << "\n Extra Charge will be apply for the Report...\n Are You Corona Positive or Negative? {P/N}: ";
+            cin >> m;
+            if (m == 'p' | m == 'P')
+            {
+                covid();
+            }
+            else
+            {
+                normal();
+            }
+        }
+    }
+    else
+    {
+        cout << "\n Press any key to continue.";
+        getch();
+        main_menu();
+    }
+}
+
+//FUNCTION TO DISPLAY PARTICULAR RECORD
+void HOTEL::display()
+{
+    system("cls");
+    fstream fin("Record.DAT", ios::in | ios::binary);
+    int r, flag;
+    cout << "\n Enter Room Number: ";
+    cin >> r;
+    flag = check(r);
+    while (fin.read((char *)this, sizeof(HOTEL)))
+    {
+        if (room_no == r)
+        {
+            system("cls");
+            cout<<"\n Customer Details";
+            cout<<"\n ----------------";
+            cout<<"\n\n Room Number: "<<room_no;
+            cout<<"\n Name: "<<name<<" "<<surname;
+            cout<<"\n Address: "<<address;
+            cout<<"\n Phone Number: "<<phone;
+            cout<<"\n Age: "<<age;
+            cout<<"\n Occupation :"<<occ;
+            cout<<"\n Staying for "<<"'"<<days<<"'"<<" days.";
+            cout<<"\n Car Parking: "<<car_park;
+            cout<<"\n Room Type: "<<rtype;
+            cout<<"\n COVID Report: "<<reptype;
+            cout<<"\n Total cost of stay: "<<cost;
+            flag=1;
+            break;
+       }
+    }
+    if (flag == 0)
+        cout << "\n Room No." << r << " is Vacant.";
+    cout << "\n\n Press any key to continue.";
+    fin.close();
+    getchar();
+    getchar();
+}
+
+//FUNCTION TO SHOW ALL RECORDS
+void HOTEL::rooms()
+{
+    system("cls");
+    const char separator = ' ';
+    const int NoWidth = 8;
+    const int GuestWidth = 13;
+    const int AddressWidth = 12;
+    const int RoomWidth = 12;
+    const int ContactNoWidth = 12;
+    const int agewidth = 8;
+    fstream fin("Record.DAT", ios::in | ios::binary);
+    cout << "\n\t\t\t    LIST OF ROOMS ALLOTED";
+    cout << "\n\t\t\t   -----------------------";
+    cout << "\n\n+---------+--------------+-------------+-------------+-------------+---------+";
+    cout << "\n| Room No.|     Name     |   Address   |  Room Type  | Contact No. |   Age   |";
+    cout << "\n+---------+--------------+-------------+-------------+-------------+---------+";
+    while (fin.read((char *)this, sizeof(HOTEL)))
+    {
+        cout << "\n|" << setw(NoWidth) << setfill(separator) << room_no << " |";
+        cout << setw(GuestWidth) << setfill(separator) << name << " |";
+        cout << setw(AddressWidth) << setfill(separator) << address << " |";
+        cout << setw(RoomWidth) << setfill(separator) << rtype << " |";
+        cout << setw(ContactNoWidth) << setfill(separator) << phone << " |";
+        cout << setw(agewidth) << setfill(separator) << age << " |";
+    }
+    cout << "\n+---------+--------------+-------------+-------------+-------------+---------+";
+    cout << "\n Press any key to continue.";
+    fin.close();
+    getch();
+}
+
+//FUNCTION TO CHECK ROOM AVAILABILITY
+int HOTEL::check(int r)
+{
+    int flag = 0;
+    fstream fin("Record.DAT", ios::in | ios::binary);
+    while (fin.read((char *)this, sizeof(HOTEL)))
+    {
+        if (room_no == r)
+        {
+            flag = 1;
+            break;
+        }
+        else
+        {
+            if (r > 150)
+            {
+                flag == 2;
+                break;
+            }
+        }
+    }
+    fin.close();
+    return (flag);
+}
+
+//FUNCTION TO MODIFY CUSTOMER DETAILS
+void HOTEL::edit()
+{
+    system("cls");
+    int choice, r;
+    cout << "\n EDIT MENU";
+    cout << "\n ---------";
+    cout << "\n\n 1. Modify Customer Information.";
+    cout << "\n 2. Back.";
+    cout << "\n\n Enter your choice: ";
+    cin >> choice;
+    system("cls");
+    switch (choice)
+    {
+    case 1:
+        modify();
+        break;
+    default:
+        cout << "\n Okay, Press any key to open main menu.";
+        getch();
+        main_menu();
+        break;
+    }
+    cout << "\n Press any key to continue.";
+    getch();
+}
+
+//FUNCTION TO MODIFY CUSTOMER DETAILS
+void HOTEL::modify()
+{
+    system("cls");
+    int ch, r;
+    cout << "\n\t +-------------+";
+    cout << "\n\t | MODIFY MENU |";
+    cout << "\n\t +-------------+";
+    cout << "\n\n 1. Modify Name";
+    cout << "\n 2. Modify Address";
+    cout << "\n 3. Modify Phone Number";
+    cout << "\n 4. Modify Age";
+    cout << "\n 5. Modify Occupation";
+    cout << "\n 6. Modify Number of Days of Stay";
+    cout << "\n 7. Back to Main menu.";
+    cout << "\n Enter Your Choice: ";
+    cin >> ch;
+    system("cls");
+    cout << "\n Enter Room Number: ";
+    cin >> r;
+    switch (ch)
+    {
+    case 1:
+        modify_name(r);
+        break;
+    case 2:
+        modify_address(r);
+        break;
+    case 3:
+        modify_phone(r);
+        break;
+    case 4:
+        modify_age(r);
+        break;
+    case 5:
+        modify_occ(r);
+        break;
+    case 6:
+        modify_days(r);
+        break;
+    default:
+        cout << "\n Press Any Key to Continue..";
+        getchar();
+        break;
+    }
+}
+
+//FUNCTION TO MODIFY CUSTOMER NAME
+void HOTEL::modify_name(int r)
+{
+    long pos, flag = 0;
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << "\n Enter New Name: ";
+            cin >> name;
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Customer Name has been modified.";
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is vacant.";
+    file.close();
+    getch();
+}
+
+//FUNCTION TO MODIFY CUSTOMER ADDRESS
+void HOTEL::modify_address(int r)
+{
+    long pos, flag = 0;
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << "\n Enter New Address: ";
+            cin >> address;
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Customer Address has been modified.";
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is vacant.";
+    file.close();
+    getch();
+}
+
+//FUNCTION TO MODIFY CUSTOMER PHONE NUMBER
+void HOTEL::modify_phone(int r)
+{
+    long pos, flag = 0;
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << "\n Enter New Phone Number: ";
+            cin >> phone;
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Customer Phone Number has been modified.";
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is vacant.";
+    file.close();
+    getch();
+}
+
+//FUNCTION TO MODIFY CUSTOMER AGE
+void HOTEL::modify_age(int r)
+{
+    long pos, flag = 0;
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << "\n Enter New Age: ";
+            cin >> age;
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Customer Age has been modified.";
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is vacant.";
+    file.close();
+    getch();
+}
+
+//FUNCTION TO MODIFY CUSTOMER OCCUPATION
+void HOTEL::modify_occ(int r)
+{
+    long pos, flag = 0;
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << "\n Enter New Occupation: ";
+            cin >> occ;
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Customer Occupation has been modified.";
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is vacant.";
+    file.close();
+    getch();
+}
+
+//FUNCTION TO MODIFY CUSTOMER BOOKING DAYS
+void HOTEL::modify_days(int r)
+{
+    long pos, flag = 0;
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << " Enter New Number of Days of Stay: ";
+            cin >> days;
+            if (room_no >= 1 && room_no <= 50)
+            {
+                strcpy(rtype, "Ordinary");
+                cost = days * 2000;
+            }
+            else if (room_no >= 51 && room_no <= 80)
+            {
+                strcpy(rtype, "Deluxe");
+                cost = days * 5000;
+            }
+            else if (room_no >= 81 && room_no <= 100)
+            {
+                strcpy(rtype, "Royal");
+                cost = days * 8000;
+            }
+            else if (room_no >= 101 && room_no <= 150)
+            {
+                strcpy(rtype, "Covid Room");
+                cost = days * 4000;
+            }
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Customer information is modified.";
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is Vacant.";
+    file.close();
+    getch();
+}
+
+//FUNCTION TO BOOK MEMO
+void HOTEL::memo()
+{
+    system("cls");
+    int r, ch, num;
+    cout << "\n\t\t\t\t Programs:";
+    cout << "\n\t\t\t -------------------------- ";
+    cout << "\n\t\t +----------+---------------+-----------------+";
+    cout << "\n\t\t |  S.No.   |    Program    |   Price/Person  |";
+    cout << "\n\t\t +----------+---------------+-----------------+";
+    cout << "\n\t\t |     1    |    Theatre    |      Rs.500     |";
+    cout << "\n\t\t |     2    | Swimming Pool |      Rs.200     |";
+    cout << "\n\t\t |     3    |      Gym      |      Rs.100     |";
+    cout << "\n\t\t |     4    |     Casino    |         -       |";
+    cout << "\n\t\t |     5    |   Main menu   |         -       |";
+    cout << "\n\t\t +----------+---------------+-----------------+";
+    cout << "\n Enter your choice: ";
+    cin >> ch;
+    switch (ch)
+    {
+    case 1:
+        cout << " Enter Room Number: ";
+        cin >> r;
+        theatre(r);
+        break;
+    case 2:
+        cout << " Enter Room Number: ";
+        cin >> r;
+        swim(r);
+        break;
+    case 3:
+        cout << " Enter Room Number: ";
+        cin >> r;
+        gym(r);
+        break;
+    case 4:
+        casino();
+        break;
+    default:
+        cout << "\n Okayy..";
+        cout << "\n Press any key to continue...!";
+        getch();
+        main_menu();
+        break;
+    }
+}
+
+//FUNCTION TO BOOK THEATRE
+void HOTEL::theatre(int r)
+{
+    int num, flag = 0;
+    long pos;
+
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << " Enter number of people: ";
+            cin >> num;
+            cout << "\n Theatre is Booked For " << num << " peoples.\n Hope You will Enjoy!";
+            mem = 500 * num;
+            pay1 = pay1 + mem;
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Amount added to the bill: Rs. " << mem;
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is Vacant.";
+    getch();
+    file.close();
+}
+
+//FUNCTION TO BOOK SWIMMING POOL
+void HOTEL::swim(int r)
+{
+    int num, flag = 0;
+    long pos;
+
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << " Enter number of people: ";
+            cin >> num;
+            cout << "\n Swimming Pool is Booked For " << num << " peoples.\n Hope You will Enjoy!";
+            mem = 200 * num;
+            pay1 = pay1 + mem;
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Amount added to the bill: Rs. " << mem;
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is vacant.";
+    file.close();
+    getch();
+}
+
+//FUNCTION TO BOOK GYM
+void HOTEL::gym(int r)
+{
+    int num, flag = 0;
+    long pos;
+
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << " Enter number of people: ";
+            cin >> num;
+            cout << "\n Gym is Booked For " << num << " peoples.\n Hope You will Enjoy!";
+            mem = 100 * num;
+            pay1 = pay1 + mem;
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Amount added to the bill: Rs. " << mem;
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is Vacant.";
+    file.close();
+    getch();
+}
+
+//FUNCTION OF CASINO RULES
+void HOTEL::rules()
+{
+    system("cls");
+    cout << "\n";
+    cout << "\t\tRULES OF THE GAME\n";
+    cout << "1. Choose any number between 1 to 10\n";
+    cout << "2. If you win you will get 10 times of money you bet\n";
+    cout << "3. If you bet on wrong number you will lose your betting amount\n";
+    cout << "...............................................................................";
+}
+
+//FUNCTION TO PLAY CASINO
+void HOTEL::casino()
+{
+    time_t timer = time(NULL);
+    int amount;
+    int bettingAmount;
+    int guess;
+    int dice;
+    char choice;
+    system("cls");
+    cout << "\n\t\t\t*.*.*.*.*.*.*.*.*.*.*";
+    cout << "\n\t\t\t*  Casino Carnival  *";
+    cout << "\n\t\t\t*.*.*.*.*.*.*.*.*.*.*";
+    cout << "\n\n\t\t  Time: " << ctime(&timer);
+    cout << "\n\nEnter Total amount to be Deposit to play game: Rs.";
+    cin >> amount;
+    do
+    {
+        system("cls");
+        rules();
+        cout << "\n\nYour current balance is Rs." << amount << "\n";
+        do
+        {
+            cout << "\nYou enter money to bet: Rs.";
+            cin >> bettingAmount;
+            if (bettingAmount > amount)
+                cout << "\nYour betting amount is more than your current balance\n"
+                     << "Please Re-enter amount\n ";
+        } while (bettingAmount > amount);
+        do
+        {
+            cout << "\nGuess your number to bet between 1 to 10: ";
+            cin >> guess;
+            if (guess <= 0 || guess > 10)
+                cout << "Please check the number!! should be between 1 to 10\n"
+                     << "Re-enter data\n ";
+        } while (guess <= 0 || guess > 10);
+        dice = rand() % 10 + 1;
+        if (dice == guess)
+        {
+            cout << "\nGood Luck!! You won Rs." << bettingAmount * 10;
+            amount = amount + bettingAmount * 10;
+        }
+        else
+        {
+            cout << "\nBad Luck this time !! You lost Rs. " << bettingAmount << "\n";
+            amount = amount - bettingAmount;
+        }
+        cout << "\nThe winning number was : " << dice << "\n";
+        cout << "\nYou have Rs. " << amount << "\n";
+        if (amount == 0)
+        {
+            cout << "You have no money to play ";
+            break;
+        }
+        cout << "\nDo you want to play again (y/n)? ";
+        cin >> choice;
+    } 
+while (choice == 'Y' || choice == 'y');
+    cout << "\nThanks for playing game. Your balance amount is Rs. " << amount;
+}
+
+//FUNCTION TO ORDER FOOD
+void HOTEL::restaurant()
+{
+    system("cls");
+    int r, ch, num;
+    cout << "\n\t\t\t\tRESTAURANT MENU:";
+    cout << "\n\t\t\t ------------------------------- ";
+    cout << "\n\t\t +----------+------------+-----------------+";
+    cout << "\n\t\t |  Order   |    Type    |   Price/Person  |";
+    cout << "\n\t\t +----------+------------+-----------------+";
+    cout << "\n\t\t |     1    |  Breakfast |      Rs.500     |";
+    cout << "\n\t\t |     2    |   Lunch    |      Rs.1000    |";
+    cout << "\n\t\t |     3    |   Dinner   |      Rs.1200    |";
+    cout << "\n\t\t |     4    |    Back    |         -       |";
+    cout << "\n\t\t +----------+------------+-----------------+";
+    cout << "\n\n Enter your choice: ";
+    cin >> ch;
+        switch (ch)
+    {
+    case 1:
+        cout << " Enter Room Number: ";
+        cin >> r;
+        breakfast(r);
+        break;
+    case 2:
+        cout << " Enter Room Number: ";
+        cin >> r;
+        lunch(r);
+        break;
+    case 3:
+        cout << " Enter Room Number: ";
+        cin >> r;
+        dinner(r);
+        break;
+    default:
+        cout << "\n Okay... ";
+        cout << "\n\n Press any key to continue.";
+        getch();
+        main_menu();
+    }
+}
+
+//FUNCTION TO ORDER BREAKFAST
+void HOTEL::breakfast(int r)
+{
+    int num, flag = 0;
+    long pos;
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << " Enter number of people: ";
+            cin >> num;
+            pay = 500 * num;
+            pay2 = pay2 + pay;
+            cout << "\n Table is Booked For " << num << " peoples.\n ";
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Amount added to the bill: Rs. " << pay;
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is Vacant.";
+    getch();
+    file.close();
+}
+
+//FUNCTION TO ORDER LUNCH
+void HOTEL::lunch(int r)
+{
+    int num, flag = 0;
+    long pos;
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << " Enter number of people: ";
+            cin >> num;
+            pay = 1000 * num;
+            pay2 = pay2 + pay;
+            cout << "\n Table is Booked For " << num << " peoples.\n ";
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Amount added to the bill: Rs. " << pay;
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is vacant.";
+    getch();
+    file.close();
+}
+
+//FUNCTION TO ORDER DINNER
+void HOTEL::dinner(int r)
+{
+    int num, flag = 0;
+    long pos;
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            cout << " Enter number of people: ";
+            cin >> num;
+            pay = 1200 * num;
+            pay2 = pay2 + pay;
+            cout << "\n Table is Booked For " << num << " peoples.\n ";
+            file.seekg(pos);
+            file.write((char *)this, sizeof(HOTEL));
+            cout << "\n Amount added to the bill: Rs. " << pay;
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is Vacant.";
+    getch();
+    file.close();
+}
+
+//FUNCTION TO ADD MORE DAYS
+void HOTEL::add_day(int r)
+{
+    int add_days, flag = 0;
+    long pos;
+    cout << " Enter number of days You Want to Add: ";
+    cin >> add_days;
+    fstream file("Record.DAT", ios::in | ios::out | ios::binary);
+    while (!file.eof())
+    {
+        pos = file.tellg();
+        file.read((char *)this, sizeof(HOTEL));
+        if (room_no == r)
+        {
+            days = add_days + days;
+            if (room_no >= 1 && room_no <= 50)
+            {
+                ad_pay = add_days * 2000;
+                cost = cost + ad_pay;
+            }
+            else if (room_no >= 51 && room_no <= 80)
+            {
+                ad_pay = add_days * 5000;
+                cost = cost + ad_pay;
+            }
+            else if (room_no >= 81 && room_no <= 100)
+            {
+                ad_pay = add_days * 8000;
+                cost = cost + ad_pay;
+            }
+            else if (room_no >= 101 && room_no <= 150)
+            {
+                ad_pay = add_days * 4000;
+                cost = cost + ad_pay;
+            }
+        }
+        file.seekg(pos);
+        file.write((char *)this, sizeof(HOTEL));
+        cout << "\n Amount added to the bill: Rs. " << ad_pay;
+        flag = 1;
+        break;
+    }
+    if (flag == 0)
+        cout << "\n Sorry, Room is Vacant.";
+    getchar();
+    file.close();
+}
+
+//FUNCTION TO PAY BILL
+void HOTEL::bill()
+{
+    int r,c, flag = 0;
+    int a;
+    char pm[10];
+    time_t timer = time(NULL);
+    char ch;
+    cout << "\n Enter Room Number: ";
+    cin >> r;
+    flag = check(r);
+    system("cls");
+    ifstream fin("Record.DAT", ios::in | ios::binary);
+    ofstream fout("temp.DAT", ios::out | ios::binary);
+    while (fin.read((char *)this, sizeof(HOTEL)))
+    {
+        if (room_no == r)
+        {
+            c=cp*days; 
+            cout<<"\n Name: "<<name <<" "<<surname;
+            cout << "\n You Stay for "<< "'" << days << "'"<< " days";
+            cout << "\n Room Bill: Rs." << cost;
+            cout << "\n Memo Bill: Rs." << pay1;
+            cout << "\n Restaurant Bill: Rs." << pay2;
+            cout << "\n Car parking: Rs." << c;
+            cout << "\n Your bill is: Rs." << cost + pay1 + pay2 + c;
+            tax = (cost + pay1 + pay2) * 0.18;
+            total = tax + cost + pay1 + pay2 + c;
+            cout << "\n\t Taxes (18%): Rs." << tax;
+            cout << "\n\t Total Bill is: Rs." << total;
+            cout << "\n\n Do you want to check out this customer(y/n): ";
+            cin >> ch;
+            if (ch == 'n' || ch == 'N')
+            {
+                add_day(r);
+                fout.write((char *)this, sizeof(HOTEL));
+            }
+            else
+            {
+                cout << "\n\n\t\t\t\t Payment Method:";
+                cout << "\n\t\t +----------+----------------+-------------+";
+                cout << "\n\t\t |   S.No.  |      Type      |   Discount  |";
+                cout << "\n\t\t +----------+----------------+-------------+";
+                cout << "\n\t\t |     1    |       Cash     |      0%     |";
+                cout << "\n\t\t |     2    |   Credit Card  |      10%    |";
+                cout << "\n\t\t |     3    | Online Banking |      5%     |";
+                cout << "\n\t\t +----------+----------------+-------------+";
+                cout << "\n Enter Payment Method: ";
+                cin >> a;
+                if (a == 1)
+                {
+                    strcpy(pm, "Cash");
+                    amt = total;
+                }
+                else if (a == 2)
+                {
+                    strcpy(pm, "Credit Card");
+                    dis = total * 0.1;
+                    amt = total - dis;
+                }
+                else
+                {
+                    strcpy(pm, "Online Banking");
+                    dis = total * 0.05;
+                    amt = total - dis;
+                }
+                system("cls");
+                cout << "********************************************************************************";
+                cout << "\t\t\t *        HOTEL RADDISON      *";
+                cout << "\n................................................................................";
+                cout << "\t\t\t\tFaridabad-121001";
+                cout << "\n\t\t\t\t  Tel-12930932\n";
+                cout << "-------------------------------------------------------------------------------";
+                cout << "\n\t\t\t\t   Invoice:\n";
+                cout << "\n\t\t Time: " << ctime(&timer);
+                cout<<"\n Name: "<<name <<" "<<surname;
+                cout << "\n Phone Number:    " << phone;
+                cout << "\n Room Type:       " << rtype;
+                cout << "\n You Stay for "<< "'" << days << "'"<< " days";
+                cout << "\n Room Bill:       Rs." << cost;
+                cout << "\n Memo Bill:       Rs." << pay1;
+                cout << "\n Restaurant Bill: Rs." << pay2;
+                cout << "\n Car parking:     Rs." << c;
+                cout << "\n Your bill is:    Rs." << cost + pay1 + pay2 + c;
+                cout << "\n..........................................................";
+                cout << "\n\t Taxes{18%}: Rs." << tax;
+                cout << "\n\t Total Bill is: Rs." << total;
+                cout << "\n\n Payment Method: " << pm;
+                cout << "\n\n You Have To Pay Rs." << amt;
+                getch();
+                cout << "\n Customer Checked Out.";
+                flag = 1;
+            }
+        }
+        else
+            fout.write((char *)this, sizeof(HOTEL));
+    }
+    fin.close();
+    fout.close();
+    if (flag == 0)
+        cout << "\n Sorry, Room is Vacant.";
+    else
+    {
+        remove("Record.dat");
+        rename("temp.dat", "Record.dat");
+    }
+    getch();
+}
+
+//FUNCTION FOR ADMIN LOGIN
+void HOTEL::admlog()
+{
+    int u, p;
+    system("cls");
+    cout << "\n\t\t\t +-----------------------+";
+    cout << "\n\t\t\t | ADMINISTRATION LOGIN  |";
+    cout << "\n\t\t\t +-----------------------+";
+    cout << "\n\n Enter the login details";
+    for (int i = 1; i < 3; i++)
+    {
+        cout << "\n\n Enter Admin ID: ";
+        cin >> u;
+        cout << " Enter password: ";
+        cin >> p;
+        fflush(stdin);
+        if (u == 1 && p == 2)
+        {
+            cout << "\n\n Access Granted..!";
+            cout << "\n Press any key to continue....!!";
+            getch();
+            h.main_menu();
+            break;
+        }
+        else
+        {
+            cout << "\n Sorry wrong User Id and Password \n Enter the detail again:";
+            cout << "\n Chance left: " << 2 - i << "\n";
+        }
+    }
+}
+
+//FUNCTION FOR CUSTOMER LOGIN
+void HOTEL::custlog()
+{
+    int r,c, flag = 0;
+    int a;
+    char pm[10];
+    time_t timer = time(NULL);
+    char ch;
+    cout << "\n Enter Room Number: ";
+    cin >> r;
+    flag = check(r);
+    ifstream fin("Record.DAT", ios::in | ios::binary);
+    ofstream fout("temp.DAT", ios::out | ios::binary);
+    while (fin.read((char *)this, sizeof(HOTEL)))
+    {
+        if (room_no == r)
+        {
+            c=cp*days; 
+            system("cls");
+            cout << "\n  Details";
+            cout << "\n ----------------";
+            cout << "\n\n Room Number:  " << room_no;
+            cout<<"\n Name: "<<name <<" "<<surname;
+            cout << "\n Address:      " << address;
+            cout << "\n Phone Number: " << phone;
+            cout << "\n Age:          " << age;
+            cout << "\n Occupation :  " << occ;
+            cout << "\n Car Parking:  " << car_park;
+            cout << "\n Room Type:    " << rtype;
+            cout << "\n COVID Report: " << reptype;
+            cout << "\n Staying for "<< "' " << days << " '"<< " days.";
+            cout << "\n\n Total cost of stay: Rs." << cost;
+            cout << "\n Room Bill:          Rs." << cost;
+            cout << "\n Memo Bill:          Rs." << pay1;
+            cout << "\n Restaurant Bill:    Rs." << pay2;
+            cout << "\n Car parking:        Rs." << c;
+            cout << "\n Your bill is:       Rs." << cost + pay1 + pay2 + c;
+            tax = (cost + pay1 + pay2) * 0.18;
+            total = tax + cost + pay1 + pay2 + c;
+            cout << "\n Taxes (18%):        Rs." << tax;
+            cout << "\n Total Bill is:      Rs." << total;
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+        cout << "\n Room No." << r << " is Vacant.";
+    cout << "\n Thanks For using our Portal.!";
+    cout << "\n\n Press any key to continue.";
+    fin.close();
+    getchar();
+}
+
+//MAIN FUNCTION OF PROGRAM
+int main()
+{
+    int ch;
+    cout << "\n\t\tJaypee Institute of Information Technology";
+    cout << "\n\t\t\t\tNoida-128";
+    cout << "\n\n\t\tSDF-2 Project On Hotel Management with covid protocols.";
+    cout << "\n\n\t\t->Developed By:  Rishabh, Shashwat, Kartik, Sushant\n\n";
+    cout << "\n\n\t\t\tPress Any key to continue...!";
+    getch();
+    system("cls");
+    cout << "********************************************************************************";
+    cout << "\t\t\t *  WELCOME TO HOTEL RADDISON  *";
+    cout << "\n******************************************************************************";
+    cout << "\n\n1.  ADMIN LOGIN";
+    cout << "\n2.  CUSTOMER LOGIN";
+    cout << "\n3.  EXIT";
+    cout << "\n\n Enter your Choice: ";
+    cin >> ch;
+    switch (ch)
+    {
+    case 1:
+        h.admlog();
+        break;
+    case 2:
+        h.custlog();
+        break;
+    default:
+        cout << "\n Wrong Choice";
+    }
+    return 0;
+}
